@@ -1,0 +1,93 @@
+{% extends 'galos/base.html' %}
+
+{% block title %} Registration  | {% endblock  %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% load static %}
+
+
+
+  
+
+<div class="container mt-5 mb-5" id="" style="width: ;95%; font-size:14px">
+    <div class="title-box text-center mb-4 mt-5 ">
+        <h2 class="title">Registration Form </h2>
+    </div>
+      
+
+<!-- 1 ALL FIELDS (Error messages from(form.py) -->
+<!--
+  {% for field  in  form %}
+  {% for error  in field.errors  %}
+  <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+    <strong>{{ error|escape }}</strong>Registered Succuessfully!....
+    <button  type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+{% endfor %}
+-->
+
+<!-- 2 ALL FIELDS (Error messages from(form.py) -->
+ <!--
+ {% if form.errors  %}
+  <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+    <strong>{{ form.email.errors|striptags }}</strong>Registered Succuessfully!....
+    <button  type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endif %}
+-->
+<!-- 3 using sweetalert2 using js-->
+{% if form.errors  %}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  var m = "{{ form.email.errors|striptags }}":
+  Swal("Denied !", m "error")
+</script>
+{% endif %}
+
+<!-- messages from the backed(success-views.py) -->
+{% for message in messages  %}
+  {% if message.tags == 'success' %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>{{ message }}</strong>
+      <a href="{% url 'computer' %}" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></a>
+    </div>
+  {% endif %}
+{% endfor %}
+<form  enctype="multipart/form-data" method="POST" id ="comp" class="card p-3 mt-5" autocomplete="off" novalidate>
+  {% csrf_token %}
+  <!-- {{ form|crispy }} // first way of using crispy forms-->
+  <div  class="row">
+    <div  class="col-6">{{ form.firstname|as_crispy_field }}</div>
+    <div class="col-6">{{ form.lastname|as_crispy_field }}</div>
+  </div>
+  <div  class="row">
+    <div  class="col-4">{{ form.email|as_crispy_field }}</div>
+    <div class="col-4">{{ form.birth|as_crispy_field }}</div>
+    <div class="col-4">{{ form.phone|as_crispy_field }}</div>
+  </div>
+  <hr style="border: 1px solid #5a5a5a;">
+  <div  class="row">
+    <div  class="col-6">{{ form.course|as_crispy_field }}</div>
+    <div class="col-6">{{ form.gender|as_crispy_field }}</div>
+  </div>
+ 
+  {{ form.message|as_crispy_field }} 
+  <div  class="row">
+    <div  class="col-6">{{ form.file|as_crispy_field }} </div>
+    <div  class="col-6"> {{ form.image|as_crispy_field }} </div>
+  </div>
+  
+  <div class="container ">
+    <button type ="submit"  id="join_submit" class="btn btn-outline-success">Submit</button>
+    <a href="{% url 'computer' %}" id="join_submit" class="btn btn-outline-danger">Cancel</a>
+  </div>
+</form>
+
+</div>
+   
+  
+  {% endblock %}

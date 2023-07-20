@@ -1,0 +1,33 @@
+{% extends 'galos/base.html' %}
+{% block title %} YFC-SSD_Search | {% endblock  %}
+
+{% block content %}
+{% load static %}
+
+<div class="container mt-5 mb-5">
+{% if q %}
+
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>YFC-SSD! </strong> We found {{ posts|length }} results for <b>{{ q }}</b>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<br>  
+   
+    {% for post in posts  %}
+    {{ post.title }} <br>
+    {{ post.content|slice:"300"}} <br>
+    <a href="{% url 'post_detail' post.category.slug post.slug %}"> Read More</a> <br>
+    {% endfor %}
+    {% for video in videos  %}
+    <a href="{% url 'single_detail' %}">{{ video.video }} <br></a>
+        
+    {% endfor %}
+{% else %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>YFC-SSD! </strong>You did not submit a search term........
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{% endif %}
+</div>
+
+{% endblock %}

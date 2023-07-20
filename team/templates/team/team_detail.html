@@ -1,0 +1,46 @@
+{% extends 'app/base.html' %} {% block content %}
+
+<!--Start Team-->
+<section id="team" class="section">
+    <div class="container mt-2">
+        <div class="row">
+                
+         <div class="title-box text-center">
+            <h2 class="title">Our Team</h2>
+         </div>
+          
+         </div>
+        
+            <!-- Team -->
+            <div class="team-items team-carousel">
+                  <!-- Team Member #1 -->
+                  {% for photo in photos  %}
+                  <div class="item">
+                    <div class="container">
+                      <img src="{{ photo.image.url }}" alt="team" height="180px" width="200px" id="team-image" />
+                      <h4>{{photo.name }}</h4>
+                      <h5>{{ photo.title }}</h5>
+                      <p>{{ photo.content|safe }}</p>
+                      <div class="socials">
+                          <ul>
+                           <li><a class="facebook" href="#"><i class="fab fa-facebook"></i></a></li>
+                           <li><a class="twitter" href="#"><i class="fab fa-twitter"></i></a></li>
+                           <li><a class="linkedin" href="#"><i class="fab fa-linkedin"></i></a></li>
+                           <li><a class="google-plus" href="#"><i class="fab fa-google-plus"></i></a></li>
+                          </ul>
+                      </div>
+                  </div>
+                  </div>
+                  {% endfor %}
+            
+                  <!-- End Member -->
+            </div>
+            <!-- End Team -->
+        </div>
+        <!-- End Content -->
+     </section>
+ 
+ <!--End Team-->
+ 
+<!--Our Team end-->
+{% endblock content %}

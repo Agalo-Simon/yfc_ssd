@@ -1,0 +1,72 @@
+{% extends 'galos/base.html' %}
+
+{% block title %}History | {% endblock  %}
+
+{% block content %}
+
+{% load static %}
+
+    <!--=========================about-part start==============================-->
+
+    <section id="about" class="parallax">
+      <div class="overlay"></div>
+       <div class="container">
+           <div class="row">
+                 <!-- Start Item-->
+                <div class="col-md-12 col-sm-6 facts-box margin-bottom-30 ">
+                    <h2 class="title text-white">History</h2>
+                    <a class="text-white" href="{% url 'home' %}">Home </a><span> | </span> 
+                    <a class="text-white" href="{% url 'about' %}">About Us</a><span> | </span> 
+                    <a class="text-white" href="{% url 'history_detail'%}">History</a>
+                </div>
+              </div>
+       </div> <!-- /.container -->
+    </section>
+
+    <div class="container mt-5 mb-5">
+            <div class="title-box text-start text-dark">
+                <h2 class="title">History</h2>
+             </div> 
+        </div>
+        <div class="container">
+          <h2>Who are we</h2>
+          <p>Since 1974, Central Coast YFC has been communicating the Gospel of Jesus Christ to teenagers in San Luis Obispo and northern Santa Barbara counties, and is a chartered chapter of Youth For Christ, U.S.A. Many 
+            alumni will see YFC and Campus Life as synonymous.</p>
+        </div>
+        <div class="container">
+          <h2>Our History</h2>
+          <p>Youth For Christ began as a movement in 1944 before it became an organization. Rally’s began in cities across the nation. Estimates of a million young people involved in it's first few years are sited in newspaper articles across the country. YFC spread internationally as well.  As the organization formed, Billy Graham became the first full time employee of YFC. The phrase, “Anchored to the Rock, geared to the times,” was coined early on.
+            Anchored to the Rock, YFC moved to more relationally based bible clubs and eventually Campus Life clubs that focused on unsaved youth.
+            
+            On the Central Coast, YFC made a transition to equipping, mobilizing and encouraging students to do ministry in 1993 as local church youth ministries were flourishing. Our desire is to walk alongside the church as a part of The Church, helping Christians invite their friends to follow Jesus with them. This ministry became known as HomeFront Missions and was adopted by YFC USA as a National Ministry in 2007. Nationally, this ministry is now called YFC Core™.
+            
+            CCYFC is recognized working in our communities in various venues including Sk8 Church, Juvinile Justice Ministries and coaching student led and named Equal Access Clubs on campuses to name a few. Click OUR MINISTRIES to see a current list.</p>
+        </div>
+        <div class="container">
+          <h2>Accountability</h2>
+          <p>We are governed by a local Board of Directors who are committed to meeting the physical, mental, social, and spiritual needs of youth.  Extended accountability to our mission is also achieved through our written reports and observation of local Church Pastors and Missions committees.
+
+          </p>
+        </div>
+
+
+
+    <div class="container mb-5">
+        <div class="row">
+
+          <div class="col-4 card" id="card">
+            <h2>Welcome</h2>
+            <p>Hello there We are youth for christ south sudan.Hello there We are youth for christ south sudan </p>
+          </div>
+          <div class="col-4 card" id="card">
+            <img src="{% static 'images/yfc-photos/ceo 2.jpg' %}" alt="" >
+          </div>
+          <div class="col-4 card" id="card">
+            <h2>Welcome</h2>
+            <p>Hello there We are youth for christ south sudan.Hello there We are youth for christ south sudan </p>
+          </div>
+
+        </div>
+    </div>
+    
+ {% endblock %}

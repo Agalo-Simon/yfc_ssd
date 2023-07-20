@@ -1,0 +1,347 @@
+{% extends 'galos/base.html' %}
+
+{% block title%}Gallery |{% endblock  %}
+
+{% load static %}
+
+{% block content %}
+<!--start page-header -->
+<section id="page-header" class="parallax">
+    <div class="overlay"></div>
+   <div class="container">
+       <h1>Gallery</h1>
+       <!--Start Breadcrumb-->
+       <!--End Breadcrumb-->
+   </div>
+</section>
+<!--End page-header -->
+<!--Start portfolio-->
+<section id="works" class="section">
+    <!-- Filtering -->
+    <div class="title-box text-center">
+    <h2 class="title">Our Gallery</h2>
+    </div>
+
+    <div class=" col-md-12 text-center">
+        <!-- Filtering -->
+        <ul class="filtering">
+            <li class="filter" data-filter="all">All</li>
+            <li class="filter" data-filter="evangelism">Evangelism</li>
+            <li class="filter" data-filter="sports">Sports</li>
+            <li class="filter" data-filter="music">Music & Drama</li>
+            <li class="filter" data-filter="training">Media</li>
+        </ul>
+    </div>
+    <div class="container">
+    <div class="work-main">
+    <!-- Work Grid -->
+    <ul class="work-grid">
+        <!-- Work Item -->
+        {% for x in images  %}
+        <li class="work-item thumnail-img mix corporate">
+            <div class="work-image">
+                <img src="{{ x.image.url }}" width ="120px" height="auto" alt="thumbnail">
+                
+                <!--Hover link-->
+                <div class="hover-link">
+                    <a href="{% url 'gallery' %}">
+                        <i class="fa fa-link"></i>
+                    </a>
+    
+                    <a href="{{ x.image.url }}" class="popup-image">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                </div>
+                <!--End link-->
+    
+                <!--Hover Caption-->
+                <div class="work-caption">
+                    <h4>{{ x.name }}</h4>
+                    <p>{{ x.desc }}</p>
+                </div>
+                <!--End Caption-->
+    
+            </div> <!-- /.work-image-->
+        </li> 
+        <!--End Work Item -->
+        {% endfor %}
+
+<!-- Work Item 1 -->
+            <li class="work-item thumnail-img mix evangelism">
+                <div class="work-image">
+                    <img src="{% static 'images/yfc-photos/home 3.jpg' %}" alt="thumbnail">
+                    
+                    <!--Hover link-->
+                    <div class="hover-link">
+                        <a href="{% url 'evangelism' %}">
+                            <i class="fa fa-link"></i>
+                        </a>
+        
+                        <a href="{% static 'images/yfc-photos/home 3.jpg' %}" class="popup-image">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                    <!--End link-->
+        
+                    <!--Hover Caption-->
+                    <div class="work-caption">
+                        <h4>Evangelism</h4>
+                        <p>Our Team for Evangelism</p>
+                        <p><a class="btn btn-outline-secondary mt-3 float-right" href="{% url 'evangelism' %}">Learn More</a></p>
+                    </div>
+                    <!--End Caption-->
+        
+                </div> <!-- /.work-image-->
+            </li> 
+            <!--End Work Item  -->
+            
+            <!-- Work Item  2-->
+            <li class="work-item thumnail-img mix sports">
+                <div class="work-image">
+                    <img src="{% static 'images/yfc-photos/sport 1.jpg' %}" alt="thumbnail">
+                    
+                    <!--Hover link-->
+                    <div class="hover-link">
+                        <a href="{% url 'sport' %}">
+                            <i class="fa fa-link"></i>
+                        </a>
+        
+                        <a href="{% static 'images/yfc-photos/home 3.jpg' %}" class="popup-image">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                    <!--End link-->
+        
+                    <!--Hover Caption-->
+                    <div class="work-caption">
+                        <h4>Sports</h4>
+                        <p>Our Sport Team</p>
+                        <p><a class="btn btn-outline-secondary mt-3 float-right" href="{% url 'sport' %}">Learn More</a></p>
+                    </div>
+                    <!--End Caption-->
+        
+                </div> <!-- /.work-image-->
+            </li> 
+            <!--End Work Item -->
+        
+            <!-- Work Item 3-->
+            <li class="work-item thumnail-img mix music">
+                <div class="work-image">
+                    <img src="{% static 'images/yfc-photos/ceo 1.jpg' %}" alt="thumbnail">
+                    
+                    <!--Hover link-->
+                    <div class="hover-link">
+                        <a href="{% url 'music' %}">
+                            <i class="fa fa-link"></i>
+                        </a>
+        
+                        <a href="{% static 'images/yfc-photos/ceo 1.jpg' %}" class="popup-image">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                    <!--End link-->
+        
+                    <!--Hover Caption-->
+                    <div class="work-caption">
+                        <h4>Music & Drama</h4>
+                        <p>Team for Music & Drama</p>
+        
+                        <p><a class="btn btn-outline-secondary mt-3 float-right" href="{% url 'music' %}">Learn More</a></p>
+                    </div>
+                    <!--End Caption-->
+        
+                </div> <!-- /.work-image-->
+            </li> 
+            <!--End Work Item -->
+            
+            <!-- Work Item 4 -->
+            <li class="work-item thumnail-img mix training">
+                <div class="work-image">
+                    <img src="{% static 'images/yfc-photos/training 1.jpg' %}" alt="thumbnail">
+                    
+                    <!--Hover link-->
+                    <div class="hover-link">
+                        <a href="{% url 'media' %}">
+                            <i class="fa fa-link"></i>
+                        </a>
+                        <a href="{% static 'images/yfc-photos/training 1.jpg' %}" class="popup-image">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                    <!--End link-->
+        
+                    <!--Hover Caption-->
+                    <div class="work-caption">
+                        <h4>Media</h4>
+                        <p>View more of our Media</p>
+                        <p><a class="btn btn-outline-secondary mt-3 float-right" href="{% url 'media' %}">Learn More</a></p>
+                    </div>
+                    <!--End Caption-->
+        
+                </div> <!-- /.work-image-->
+            </li> 
+            <!--End Work Item -->
+    </ul>
+</div>
+</div>
+</section>
+
+
+<!--related works -->
+<section id="featured-works" class="section parallax">
+<div class="container">
+  <div class="row">
+      
+       <h3 class="margin-bottom-50">Related Photos</h3>
+          
+  </div>
+</div> 
+
+<div class="related-project-carousel owl-carousel">
+   <!-- Start Item-->
+    <div class="item">
+        <div class="fworks-image">
+            <img src="{% static 'images/yfc-photos/training 1.jpg' %}" alt="">
+            
+            <!--Hover link-->
+            <div class="hover-link">
+               <a href="#">
+                   <i class="fa fa-link"></i>
+               </a>
+
+               <a href="{% static 'images/yfc-photos/choir 2.jpg' %}" class="popup-image">
+                   <i class="fa fa-plus"></i>
+               </a>
+            </div>
+            <!--End link-->
+            
+            <!--Hover Caption-->
+            <div class="featured-caption">
+                <h4>Evangelism</h4>
+                <p>Our Team for Outreach</p>
+            </div>
+            <!--End Caption-->
+            
+        </div>
+    </div>
+   <!-- End Item-->
+   
+    <!-- Start Item-->
+    <div class="item">
+        <div class="fworks-image">
+            <img src="{% static 'images/yfc-photos/home 1.jpg' %}" alt=""  />
+            
+            <!--Hover link-->
+            <div class="hover-link">
+               <a href="#">
+                   <i class="fa fa-link"></i>
+               </a>
+
+               <a href="{% static 'images/yfc-photos/sport 1.jpg' %}" class="popup-image">
+                   <i class="fa fa-plus"></i>
+               </a>
+            </div>
+            <!--End link-->
+            
+            <!--Hover Caption-->
+            <div class="featured-caption">
+                <h4>Sport</h4>
+                <p>Our Sport Team</p>
+            </div>
+            <!--End Caption-->
+            
+        </div>
+    </div>
+   <!-- End Item-->
+   <!-- Start Item-->
+    <div class="item">
+        <div class="fworks-image">
+            <img src="{% static 'images/yfc-photos/sport 6.jpg' %}" alt=""/> 
+            
+            <!--Hover link-->
+            <div class="hover-link">
+               <a href="#">
+                   <i class="fa fa-link"></i>
+               </a>
+
+               <a href="{% static 'images/yfc-photos/sport 6.jpg' %}" class="popup-image">
+                   <i class="fa fa-plus"></i>
+               </a>
+            </div>
+            <!--End link-->
+            
+            <!--Hover Caption-->
+            <div class="featured-caption">
+                <h4>Out Reach</h4>
+                <p>Team for Outreach</p>
+            </div>
+            <!--End Caption-->
+            
+        </div>
+    </div>
+   <!-- End Item-->
+
+   <!-- Start Item-->
+    <div class="item">
+        <div class="fworks-image">
+            <img src="{% static 'images/yfc-photos/choir 1.jpg' %}" alt=""/> 
+            
+            <!--Hover link-->
+            <div class="hover-link">
+               <a href="#">
+                   <i class="fa fa-link"></i>
+               </a>
+
+               <a href="{% static 'images/yfc-photos/choir 2.jpg' %}" class="popup-image">
+                   <i class="fa fa-plus"></i>
+               </a>
+            </div>
+            <!--End link-->
+            
+            <!--Hover Caption-->
+            <div class="featured-caption">
+                <h4>Our Choir</h4>
+                <p>Special Presentation</p>
+            </div>
+            <!--End Caption-->
+            
+        </div>
+    </div>
+   <!-- End Item-->
+
+   <!-- Start Item-->
+    <div class="item">
+        <div class="fworks-image">
+            <img src="{% static 'images/yfc-photos/ceo 1.jpg' %}" alt=""/> 
+            
+            <!--Hover link-->
+            <div class="hover-link">
+               <a href="#">
+                   <i class="fa fa-link"></i>
+               </a>
+
+               <a href="{% static 'images/yfc-photos/ceo 1.jpg' %}" class="popup-image">
+                   <i class="fa fa-plus"></i>
+               </a>
+            </div>
+            <!--End link-->
+            
+            <!--Hover Caption-->
+            <div class="featured-caption">
+                <h4>CEO</h4>
+                <p>Office</p>
+            </div>
+            <!--End Caption-->
+            
+        </div>
+    </div>
+    <!-- End Item-->
+        
+ </div>
+</section>	
+
+
+
+
+<!-- End related works -->
+{% endblock %}

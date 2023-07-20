@@ -1,0 +1,110 @@
+{% extends 'galos/base.html' %}
+{% block title %}Music | {% endblock  %}
+
+{% load static %}
+
+{% block content %}
+
+<section id="about" class="parallax">
+  <div class="overlay"></div>
+   <div class="container">
+       <div class="row">
+             <!-- Start Item-->
+            <div class="col-md-12 col-sm-6 facts-box margin-bottom-30 ">
+                <h2 class="title text-white">Misic & Drama</h2>
+                <a class="text-white" href="{% url 'home' %}">Home </a><span> | </span> 
+                <a class="text-white" href="{% url 'music' %}">Music & Drama</a>
+            </div>
+          </div>
+   </div> <!-- /.container -->
+</section>
+
+<!-- Our vision and Vision -->
+<div class="container mt-3" id="drama">
+  <div class="row">
+    <div class="col-md-7">
+      <div class="container mt-4">
+      <div class="title-box text-start text-white">
+        <h2 class="title text-white">Drama Team</h2>
+      </div>
+        <div>
+          <p class="text-white">
+            The Drama Team emerged from the already existing youth in Kibra and Satellite centers in Nairobi. The goal was to offer our volunteers an opportunity to learn video and film production skills for free. The training spurred creativity and passion among the volunteers resulting in 
+            the production of short films and content for our online platforms.</p>
+      </div>
+    </div>
+
+  </div>
+    <div class="col-md-5">
+      <img src="{% static 'images/yfc-photos/choir 1.jpg' %}" alt="">
+    </div>
+      </div>
+</div>
+
+<div class="container mb-5 mt-5">
+    <div class="row">
+      <div class="col-4 card" id="card">
+        <div class="title-box text-center">
+          <h2 class="title">MUsic</h2>
+        </div>
+        <p>
+        Youth for Christ South Sudan choirs during the lunching of yfc-ssd in Nairobi in the month of septmnber 2021, the music team was leading praises and worship. 
+          
+          The mission of the team is to spread the truth of Christ through music and daily life.
+          
+          Simplicity in worship allows God to be the focus and their passion and determination enable them to carry out their God-given mandate of using music as a tool of worship and spreading the Gospel. 
+          
+          Besides producing their own songs, Voices of Truth ministers in Christian gathering events and opportunities.</p>
+      </div>
+      <div class="col-4 card" id="card">
+        <img src="{% static 'images/yfc-photos/choir 1.jpg' %}" alt="" >
+      </div>
+      <div class="col-4 card" id="card">
+        <div class="title-box text-center">
+          <h2 class="title">Arts</h2>
+        </div>
+        <p>Young people are our most valuable assets and so we take the time, effort, and resources required to help them discover their God-given talents and skills. We then provide opportunities for these skills to be used in outreach to their peers.</p>
+      </div>
+    </div>
+</div>
+</div>
+
+<div class="container">
+<div class="row mb-5 mt-5">
+  {% for x in drama  %}
+  <div class="col-6">
+      <div class="card">
+          <video class="embed-responsive embed-responsive-16by9" controls="controls">
+              <source src="{{ x.video.url }}" type="video/mp4">
+          </video>
+          <h2>{{ x.title }}</h2>
+        <p>{{ x.content }}</p>
+      </div>
+  </div>
+  {% endfor %}
+</div>
+</div>
+<!-- pagination -->
+{% if drama.has_other_pages %}
+<div class="container ">
+    <ul class="pagination pagination-lg  justify-content-center" style="margin:20px 0" >
+        {% if drama.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ drama.previous_page_number }}">Previous</a></li>
+    {% endif %}
+    {% for i in drama.paginator.page_range %}
+      {% if drama.number == i %}
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if drama.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ drama.next_page_number }}">Next</a></li>
+    {% endif %}
+  </ul>
+</div>
+{% endif %}
+<!--Pagination end-->>
+  
+
+  <!-- footer -->
+  {% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'galos/base.html' %}
+
+{% block title %}{% endblock  %}
+{% block content %}
+
+{% load static %}
+
+<section id="join_team" class="parallax">
+  <div class="overlay"></div>
+   <div class="container">
+       <div class="row">
+             <!-- Start Item-->
+            <div class="col-md-12 col-sm-6 facts-box margin-bottom-30 ">
+                <h2 class="title text-white">JOIN US TODAY</h2>
+                <a class="text-white" href="{% url 'home' %}">Home </a><span> | </span> 
+                <a class="text-white" href="{% url 'join_team' %}">Join us</a>
+            </div>
+          </div>
+   </div> <!-- /.container -->
+</section>
+
+<div class="container mt-5">
+  <div class="title-box text-center text-dark">
+    <h2 class="title">Join Us Now </h2>
+ </div> 
+</div>
+<div class="container mt-3 mb-3" id="join">
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+    <div class="mb-3 mt-3 col-md-6" >
+      <label for="email" class="form-label">Name:</label>
+      <input type="text" class="form-control" id="name" placeholder="Enter name" name="username" required>
+    </div>
+    <div class="mb-3 mt-3 col-md-6">
+      <label for="email" class="form-label">Email:</label>
+      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
+    </div>
+    <div class="mb-3 mt-3 col-md-6">
+      <label for="email" class="form-label">Mobile:</label>
+      <input type="text" class="form-control" id="mobile" placeholder="Enter mobile" name="mobile" required>
+    </div>
+    <div class="mb-3 mt-3 col-md-6">
+      <label for="age" class="form-label">Age:</label>
+      <input type="text" class="form-control" id="age" placeholder="Enter age" name="age" required>
+    </div>
+    <div class="mb-3 mt-3">
+      <label for="residence" class="form-label">Residence:</label>
+      <input type="text" class="form-control" id="residence" placeholder="Enter residence" name="residence" required>
+    </div>
+  </div>
+  <div class="mb-3 mt-3">
+      <label for="residence" class="form-label">Message:</label>
+        <textarea name="msg" class="form-control" id="" cols="30" rows="10" placeholder="Equiry"></textarea>
+    </div>
+    <div class="container">
+        <button type="submit" id="join_submit" class="btn btn-outline-secondary text-center">Submit</button>
+    </div>
+    </div>
+  </form>
+  </div>
+
+{% endblock  %}

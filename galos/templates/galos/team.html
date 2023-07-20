@@ -1,0 +1,143 @@
+{% extends 'galos/base.html' %}
+
+{% block title %}Team | {% endblock %}
+
+{% load static %}
+
+{% block content %}
+<!-- ======================End of Nav ==================================== -->
+
+<section id="team-bgnd" class="parallax">
+  <div class="overlay"></div>
+   <div class="container">
+       <div class="row">
+             <!-- Start Item-->
+            <div class="col-md-12 col-sm-6 facts-box margin-bottom-30 ">
+                <h2 class="title text-white">Team</h2>
+                <a class="text-white" href="{% url 'home' %}">Home </a><span> | </span> 
+                <a class="text-white" href="{% url 'team' %}">Team</a>
+            </div>
+          </div>
+   </div> <!-- /.container -->
+</section>
+<div class="container">
+<br>
+<br>
+</div>
+<!--Start Call To Action-->
+<section id="cta" class="parallax">
+  <div class="overlay"></div>
+    <div class="container">
+        <div class="row text-center">
+            <h2>Jesus is the Source of Love</h2>
+            <a href="#" class="btn btn-green"></a>
+      </div>
+    </div>
+</section>
+<!--End Call To Action-->
+
+
+
+<!--Start Team-->
+<section id="team" class="section">
+    <div class="container mt-2">
+      <div class="row">
+        <div class="title-box text-center">
+          <h2 class="title">Our Team</h2>
+        </div>
+      </div>
+
+       <!-- our Team start -->
+       <div class="container mb-5">
+        <div class="row">
+          {% for photo in photos  %}
+          <div class="col-md-4">
+            <div class="">
+              <img src="{{ photo.image.url }}" alt="Jane" style="width:100%">
+              <div class="container">
+                <h4 class="title">{{ photo.name }}</h4>
+                <h5 class="title">{{ photo.title }}</h5>
+                <p>{{ photo.content|slice:"200" }}</p>
+                <div class="container" id ="dom">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-google-plus"></i></a>
+                <a href="{% url 'team_detail' %}" class="btn btn-outline-secondary">Read More &rarr;</a>
+              </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+  </div>
+</div>
+</section>
+<!--Our Team end-->
+<!--Pagination start-->
+{% if photos.has_other_pages %}
+<div class="container ">
+    <ul class="pagination pagination-md  justify-content-center" style="margin:20px 0" >
+        {% if photos.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ photos.previous_page_number }}">Previous</a></li>
+    {% endif %}
+    {% for i in photos.paginator.page_range %}
+    {% if photos.number == i %}
+    {% else %}
+    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if photos.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ photos.next_page_number }}">Next</a></li>
+    {% endif %}
+  </ul>
+</div>
+{% endif %}
+<!--Pagination end-->
+      
+     
+<!--Start Skills-->
+<section  id="skills" class="section parallax">
+  <div class="overlay"></div>
+  <div class="container">
+      <div class="row">
+               
+        <div class="title-box text-center white">
+           <h2 class="title">Technical Skills</h2>
+        </div>
+         
+            <!--Skill #1-->
+           <div class="col-sm-3 col-md-3 col-lg-3 pie-chart-main">
+              
+               <h4>Compter Training</h4>
+               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit cupiditate, illum deleniti odio voluptatibus eos explicabo quia culpa! Perspiciatis veniam laboriosam eaque voluptatibus. Nam rem numquam sed aperiam quia nihil, reiciendis ullam dolorem debitis earum, enim, similique error quae dolores officiis dicta excepturi repudiandae fuga qui voluptate provident. A, recusandae.</p>
+           </div>
+           
+           <!--Skill #2-->
+           <div class="col-sm-3 col-md-3 col-lg-3 pie-chart-main">
+               
+               <h4>Computer Training</h4>
+               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit cupiditate, illum deleniti odio voluptatibus eos explicabo quia culpa! Perspiciatis veniam laboriosam eaque voluptatibus. Nam rem numquam sed aperiam quia nihil, reiciendis ullam dolorem debitis earum, enim, similique error quae dolores officiis dicta excepturi repudiandae fuga qui voluptate provident. A, recusandae.</p>
+           </div>
+           
+           <!--Skill #3-->
+           <div class="col-sm-3 col-md-3 col-lg-3 pie-chart-main">
+               
+               <h4>Tailoring Training</h4>
+               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit cupiditate, illum deleniti odio voluptatibus eos explicabo quia culpa! Perspiciatis veniam laboriosam eaque voluptatibus. Nam rem numquam sed aperiam quia nihil, reiciendis ullam dolorem debitis earum, enim, similique error quae dolores officiis dicta excepturi repudiandae fuga qui voluptate provident. A, recusandae.</p>
+           </div>
+           
+           <!--Skill #4-->
+           <div class="col-sm-3 col-md-3 col-lg-3 pie-chart-main">
+              
+               <h4>Piano Training</h4>
+               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit cupiditate, illum deleniti odio voluptatibus eos explicabo quia culpa! Perspiciatis veniam laboriosam eaque voluptatibus. Nam rem numquam sed aperiam quia nihil, reiciendis ullam dolorem debitis earum, enim, similique error quae dolores officiis dicta excepturi repudiandae fuga qui voluptate provident. A, recusandae.</p>
+           </div>
+
+       
+      </div> <!-- /.row-->
+  </div> <!-- /.container-->
+</section> 
+<!--End Skills-->
+
+{% endblock %}

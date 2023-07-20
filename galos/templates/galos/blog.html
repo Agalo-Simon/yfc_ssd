@@ -1,0 +1,93 @@
+{% extends 'galos/base.html' %}
+
+{% block title %} Blog | {% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+<!-- Start Facts-->
+<section id="facts" class="section parallax">
+  <div class="overlay"></div>
+     <div class="container">
+         <div class="row">
+               <!-- Start Item-->
+              <div class="col-md-12 col-sm-6 facts-box margin-bottom-30 ">
+                  <h2 class="title text-white">Blog</h2>
+                  <a class="text-white" href="{% url 'home' %}">Home </a><span> | </span> 
+                <a class="text-white" href="{% url 'blog' %}">blog</a>
+              </div>
+              <!-- End Item-->
+           </div> <!-- /.row -->
+     </div> <!-- /.container -->
+</section>
+<!--End Facts-->
+<div class="container mt-5 mb-5">
+    <div class="title-box text-center">
+        <h2 class="title">Latest Blog</h2>
+     </div> 
+</div>
+  <div class="container">
+    <article class="my-3" id="card">
+        <div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2"></div>
+        <div class="bd-example-snippet bd-code-snippet">
+            <div class="bd-example">
+            <div class="row  row-cols-1 row-cols-md-3 g-3">
+                <!-- post 1 -->
+                {% for post in posts %}
+                <div class="col">
+                    <div class="">
+                        <div class="card-body">
+                          <img src="{{ post.image.url }}" alt="">
+                          <h4 class="card-title mt-3 ">{{ post.title }}</h4>
+                          <p class="card-text text-muted h6">{{ post.author }} | {{ post.created_on|timesince}} ago </p>
+                          <p class="card-text">{{post.content|slice:":200" }}</p>
+                          <a href="{% url 'post_detail' post.category.slug post.slug  %}" class="btn btn-outline-secondary">Read More &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+  <div class="card">
+    <div class="body">
+      <div class="row">
+        <div class="col-sm-6">
+      <h1>Hello Simon</h1>
+      <p>The coming of our Lord will be terrible for the sinners <br/>
+        all must repent from their iniquities
+      </p>
+    </div>
+   </div>
+    </div>
+  </div>
+</div>
+<!--Pagination start-->
+{% if posts.has_other_pages %}
+<div class="container ">
+    <ul class="pagination pagination-lg  justify-content-center" style="margin:20px 0" >
+        {% if posts.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}">Previous</a></li>
+    {% endif %}
+    {% for i in posts.paginator.page_range %}
+      {% if posts.number == i %}
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if posts.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}">Next</a></li>
+    {% endif %}
+  </ul>
+</div>
+{% endif %}
+<!--Pagination end-->
+
+
+<!--Start Footer-->
+    
+{% endblock %}

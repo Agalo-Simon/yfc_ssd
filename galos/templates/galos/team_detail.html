@@ -1,0 +1,91 @@
+{% extends 'galos/base.html' %}
+
+{% block title %}Team-Detail |{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<!-- ======================End of Nav ==================================== -->
+
+<section id="" class="">
+  <div class="overlay"></div>
+      <div class="container" id="team-exp">
+        {% for  photo in photos %}
+        <div class="row">
+          <div class="col">
+        <img src="{{ photo.image.url }}" alt="">
+        </div>
+        <div class="container">
+          <h2 class="overlay title text-end text-light">{{ photo.name}} | {{ photo.title }}</h2>
+        </div>
+      
+          <!--Start Breadcrumb-->
+          <!--End Breadcrumb-->
+          {% endfor %}
+      </div>
+      </div>
+</section>
+<!--Start Team-->
+<section id="team" class="section">
+  <div class="container mt-2">
+      <div class="row">       
+       <div class="title-box text-center">
+          <h2 class="title">Our Team</h2>
+       </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="card" id ="team-detail">
+      <div class="row">
+        {% for photo in photos  %}
+        <div class="col-4">
+          <h1><img src="{{ photo.image.url }}" class="card-img-top" alt="..."></h1>
+          <h4 class="text-white mt-3 text-center">{{ photo.name}}</h4>
+          <h6 class="text-white mt-3 text-center">{{ photo.title}}</h6>
+        </div>
+        <div class="col-8">
+          <div class="card-body">
+            <p class="card-text">{{ photo.content|safe}}</p>
+          </div>
+          <div class="container text-center" id ="dom">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-google-plus"></i></a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      </div>
+    </div>
+</section>
+  
+   {% if photos.has_other_pages %}
+    <div class="container ">
+        <ul class="pagination pagination-lg  justify-content-center" style="margin:20px 0" >
+            {% if photos.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ photos.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        {% for i in photos.paginator.page_range %}
+          {% if photos.number == i %}
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if photos.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ photos.next_page_number }}">Next</a></li>
+        {% endif %}
+      </ul>
+  </div>
+  {% endif %}
+<!--Pagination end-->
+
+    
+
+<!--End Team-->
+
+<!--Our Team end-->
+
+{% endblock %}

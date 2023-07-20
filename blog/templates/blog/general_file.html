@@ -1,0 +1,854 @@
+<!-- =============================
+    DJANGO SETTINGS PROJECT
+===================================-->
+<!-- =======APP REGISTRATIONS=========================-->
+INSTALLED_APPS = [
+# 'jazzmin',
+'django.contrib.admin',
+'galos.apps.GalosConfig',
+'blog.apps.BlogConfig',
+'team.apps.TeamConfig',
+'django_cleanup',
+    'crispy_forms',
+    'crispy_bootstrap5',
+    # 'django_summernote',
+    'django.contrib.sitemaps',
+    # 'embed_video',
+]
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+<!-- ==================TEMPLATES=========================-->
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': ['templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+<!-- ==================DATABASES=========================-->
+DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'youthfc_ssd',
+        'USER': 'postgres',
+        'PASSWORD': 'Galos131859',
+        'HOST': 'localhost',
+        'PORT': '',
+        
+    }
+}
+
+
+<!-- ==================STATIC URL=========================-->
+STATIC_URL = 'static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+<!-- ==================MAIN PROJECT URL=========================-->
+from django.contrib import admin
+from django.urls import path, include
+
+from django.contrib.sitemaps.views import sitemap
+from blog.sitemaps import PostSitemap
+
+
+sitemaps = {
+    "posts": PostSitemap,
+}
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('galos.urls')),
+    path('', include('blog.urls')),
+    path('', include('team.urls')),
+    # path('summernote/', include('django_summernote.urls')),
+    
+    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
+]
+
+<!-- =============================
+    DJANGO APPS
+===================================-->
+<!-- ==================STATIC=========================-->
+1. CSS
+2. IMAGES
+3. JS
+<!-- ==================TEMPLATES=========================-->
+<!-- templates\galos -->
+1. base.html
+2. index.htm
+3. about.html etc
+<!-- ==================ADMIN=========================-->
+<!-- galos admin-->
+
+from atexit import register
+from django.contrib import admin
+from .models import Contact, Candidate, JoinTeam, Outreach, Video, Image,Media, Sport, Drama
+# Register your models here.
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'subject','message')  
+    
+# @admin.register(JoinForm) 
+class JoinTeamAdmin(admin.ModelAdmin):
+    list_display = ('username', 'mobile', 'email', 'age', 'residence', 'msg', 'created_on')   
+
+    admin.site.register(JoinTeam, JoinTeamAdmin)
+    # class VideoAdmin(admin.ModelAdmin):
+    
+    class CandidateAdmin(admin.ModelAdmin):
+    list_display =('firstname', 'lastname','email', 'message', 'created_at' )
+    search_fields =('firstname', 'lastname','email' )
+    list_per_page: 10
+    
+    admin.site.register(Candidate, CandidateAdmin)
+    
+    admin.site.register(Contact, ContactAdmin)
+    admin.site.register(Video)
+    admin.site.register(Image)
+    admin.site.register(Sport)
+    admin.site.register(Media)
+    admin.site.register(Outreach)
+    admin.site.register(Drama)
+    
+    # configuring admin panel site
+    admin.site.site_header ="YOUTH FOR CHRIST SOUTH SUDAN"
+    admin.site.site_title ="YFC-SSD"
+    admin.site.index_title ="Welcome to admin Panel"
+    
+    <!-- blog admin-->
+    from django.contrib import admin
+    from .models import Category, Post, Comment
+    
+    # Register your models here.
+    
+    
+    class PostAdmin(admin.ModelAdmin):
+        list_display = ('title', 'slug', 'status','created_on')
+        list_filter = ("status",)
+        search_fields = ['title', 'content']
+        prepopulated_fields = {'slug': ('title',)}
+       
+    class CategoryAdmin(admin.ModelAdmin):
+        search_fields = ['title']
+        list_display = ['title']
+        prepopulated_fields= {'slug':('title',)}
+        
+    @admin.register(Comment)
+    class CommentAdmin(admin.ModelAdmin):
+        list_display = ('name', 'body', 'post', 'created_on', 'active')
+        list_filter = ('active', 'created_on')
+        search_fields = ('name', 'email', 'body')
+        actions = ['approve_comments']
+    
+        def approve_comments(self, request, queryset):
+            queryset.update(active=True)
+    
+    admin.site.register(Post, PostAdmin)
+    admin.site.register(Category, CategoryAdmin)
+    
+
+<!-- ==================MODELS=========================-->
+<!-- blog admin-->
+from tabnanny import verbose
+from unicodedata import category
+from django.db import models
+from django.contrib.auth.models import User
+
+# Create your models here.
+
+# Category
+class Category(models.Model):
+    title = models.CharField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200, unique=True)
+    
+    class Meta:
+        ordering = ['title', ]
+        verbose_name_plural ='Categories'
+
+    def __str__(self):
+        return self.title
+
+
+STATUS = (
+    (0,"Draft"),
+    (1,"Publish")
+)
+
+# post
+class Post(models.Model):
+    category = models.ForeignKey(Category,on_delete=models.CASCADE,related_name='posts')
+    title = models.CharField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200, unique=True)
+    author = models.ForeignKey(User, on_delete= models.CASCADE,related_name='blog_posts')
+    updated_on = models.DateTimeField(auto_now= True)
+    content = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    status = models.IntegerField(choices=STATUS, default=0)
+    image = models.ImageField(upload_to='uploads/', blank=True, null=True)
+
+    class Meta:
+        ordering = ['-created_on']
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+
+        return reverse("post_detail", kwargs={"slug": str(self.slug)})
+    
+# Comments
+class Comment(models.Model):
+    post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='comments')
+    name = models.CharField(max_length=80)
+    email = models.EmailField()
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['created_on']
+
+    def __str__(self):
+        return 'Comment {} by {}'.format(self.body, self.name)
+
+    
+class Contact(models.Model):
+name = models.CharField(max_length=200)
+email = models.EmailField(max_length=200)
+subject = models.CharField(max_length=200)
+message = models.TextField()
+
+def __str__(self):
+    return self.name
+
+class JoinTeam(models.Model):
+username = models.CharField(max_length=200)
+mobile= models.CharField(max_length=200)
+email = models.EmailField(max_length=200)
+age = models.CharField(max_length=200)
+residence = models.CharField(max_length=200)
+created_on = models.DateTimeField(auto_now_add=True)
+msg = models.TextField()
+
+def __str__(self):
+    return self.username
+
+
+class Video(models.Model):
+name= models.CharField(max_length=500)
+video= models.FileField(upload_to='videos/%y')
+created_on = models.DateTimeField(auto_now_add=True)
+
+def __str__(self):
+     return self.name 
+
+class Image(models.Model):
+name = models.CharField(max_length=200)
+image = models.ImageField(upload_to='uploads/', blank=True, null=True)
+desc = models.CharField(max_length=200)
+
+def __str__(self):
+    return self.name
+
+class Sport(models.Model):
+title = models.CharField(max_length=200)
+image = models.ImageField(upload_to='sport/', blank=True, null=True)
+content = models.CharField(max_length=200)
+created_on = models.DateTimeField(auto_now_add=True)
+
+def __str__(self):
+    return self.title
+
+class Media(models.Model):
+title = models.CharField(max_length=200)
+image = models.ImageField(upload_to='sport/', blank=True, null=True)
+content = models.CharField(max_length=200)
+created_on = models.DateTimeField(auto_now_add=True)
+
+def __str__(self):
+    return self.title
+
+class Outreach(models.Model):
+title = models.CharField(max_length=200)
+image = models.ImageField(upload_to='sport/', blank=True, null=True)
+content = models.CharField(max_length=200)
+created_on = models.DateTimeField(auto_now_add=True)
+
+def __str__(self):
+    return self.title
+
+class Drama(models.Model):
+title = models.CharField(max_length=200)
+video = models.FileField(upload_to='videos/%y', blank=True, null=True)
+content = models.CharField(max_length=200)
+created_on = models.DateTimeField(auto_now_add=True)
+
+def __str__(self):
+    return self.title
+
+
+class Candidate(models.Model):
+firstname = models.CharField(max_length=200)
+lastname = models.CharField(max_length=200)
+firstname = models.CharField(max_length=200)
+email = models.EmailField(max_length=200)
+message = models.TextField()  
+created_at = models.DateTimeField(auto_now_add=True)
+
+def __str__(self):
+    return self.firstname
+<!-- ==================URLS=========================-->
+<!-- galos url-->
+from django.urls import path
+from galos import views
+from django.conf import settings
+from django.conf.urls.static import static
+
+
+urlpatterns = [
+    path('', views.index, name='home'),
+    path('about/', views.about, name='about'),
+    path('contact/', views.contact, name='contact'),
+    path('volunteers/', views.volunteers, name='volunteers'),
+    path('team/', views.team, name='team'),
+    path('service/', views.service, name='service'),
+    path('gallery/', views.gallery, name='gallery'),
+    path('evangelism/', views.evangelism, name='evangelism'),
+    path('sport/', views.sport, name='sport'),
+    path('blog/', views.blog, name='blog'),
+    path('music/', views.music, name='music'),
+    # path('backend/', views.backend, name='backend'),
+    path('team_detail/', views.team_detail, name='team_detail'),
+    # path('login/', include('django.contrib.auth.urls')),
+    path('donate/', views.donate, name='donate'),
+    path('media/', views.media, name='media'),
+    path('history_detail/', views.history_detail, name='history_detail'),
+    # ==========others============
+    path('single_detail/', views.single_detail, name='single_detail'),
+    path('join_team/', views.join_team, name='join_team'),
+    path('computer_form/', views.computer_form, name='computer'),
+    path('search_detail/', views.search_detail, name='search_detail'),
+    
+    
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+<!-- blog urls -->
+from . import views
+from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    path('', views.PostList.as_view(), name='home'),
+    path('<slug:category_slug>/<slug:slug>/', views.post_detail, name='post_detail'),
+    path('<slug:slug>/', views.category, name='category_detail'),
+    
+    
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+<!-- ==================VIEWS=========================-->
+<!-- galos -->
+
+from msilib.schema import ListView
+from django.contrib import messages
+
+from django.shortcuts import render, get_object_or_404
+from .models import Contact, JoinTeam, Outreach, Video, Image, Sport, Media, Drama
+from .forms import CandidateForm
+from django.http import HttpResponse, HttpResponseRedirect
+# from django.contrib import messages
+from blog.models import Post
+from team.models import Team
+from django.db.models import Q  # required for a global search
+from django.views.decorators.cache import cache_control
+from django.contrib.auth.decorators import login_required
+
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
+
+# Create your views here
+
+# @cache_control(no_cache =True, must_revalidate=True, no_store=True)
+
+# @login_required(login_url='login')
+# def backend(request):
+#     return render(request, 'galos/backend.html')
+
+
+def index(request):
+    if 'q' in request.GET:
+        q = request.GET['q']
+        # posts= Post.objects.filter(content__icontains=q)
+        multiple_q = Q(Q(title__icontains=q)) | Q(Q(content__icontains=q))
+        posts= Post.objects.filter(multiple_q)
+    else:
+         posts = Post.objects.filter(status=1).order_by('-created_on')
+    photos = Team.objects.filter().order_by('-created_on')
+
+    posts = Post.objects.filter(status=1)
+    paginator = Paginator(posts, 3)  # 3 posts in each page
+    page = request.GET.get('page',1)
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer deliver the first page
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page of results
+        posts = paginator.page(paginator.num_pages)
+
+    return render(request, 'galos/index.html', {'posts': posts, 'photos': photos})
+
+
+def blog(request):
+    posts = Post.objects.filter(status=1)
+    paginator = Paginator(posts, 3)  # 3 posts in each page
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer deliver the first page
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page of results
+        posts = paginator.page(paginator.num_pages)
+
+    return render(request, 'galos/blog.html', {'posts': posts})
+
+
+def about(request):
+    return render(request, 'galos/about.html')
+
+
+def volunteers(request):
+    return render(request, 'galos/volunteer.html')
+
+
+def contact(request):
+    if request.method == 'POST':
+        contact = Contact()
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+
+        contact.name = name
+        contact.email = email
+        contact.subject = subject
+        contact.message = message
+        contact.save()
+
+        return HttpResponse('<h1>Thank for contact us</h1>')
+
+    return render(request, 'galos/contact.html')
+
+def join_team(request):
+    if request.method == 'POST':
+        join = JoinTeam()
+        username = request.POST.get('username')
+        mobile =request.POST.get('mobile')
+        email = request.POST.get('email')
+        age = request.POST.get('age')
+        residence = request.POST.get('residence')
+        msg = request.POST.get('msg')
+
+        join.username = username
+        join.mobile = mobile
+        join.email = email
+        join.age = age
+        join.residence = residence
+        join.msg = msg
+        join.save()
+
+        return HttpResponse('<h1>Thank for Reaching us</h1>')
+
+    return render(request, 'galos/single/join_team.html')
+
+
+def donate(request):
+    return render(request, 'galos/donate.html')
+
+
+def evangelism(request):
+    evangs = Outreach.objects.all()
+    paginator = Paginator(evangs, 3)  # 3 evangs in each page
+    page = request.GET.get('page',1)
+    try:
+        evangs = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer deliver the first page
+        evangs = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page of results
+        evangs = paginator.page(paginator.num_pages)
+    return render(request, 'galos/evangelism.html', {'evangs': evangs})
+
+
+def team(request):
+    photos = Team.objects.filter()
+    paginator = Paginator(photos, 3)  # 3 photos in each page
+    page = request.GET.get('page', 1)
+    try:
+        photos = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer deliver the first page
+        photos = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page of results
+        photos = paginator.page(paginator.num_pages)
+
+    return render(request, 'galos/team.html', {'photos': photos})
+
+def team_detail(request):
+    photos = Team.objects.filter()
+    paginator = Paginator(photos,1)  # 3 photo in each page
+    page = request.GET.get('page')
+    try:
+        photos = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer deliver the first page
+        photos = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page of results
+        photos = paginator.page(paginator.num_pages)
+        
+        photos = get_object_or_404(Team)
+
+    return render(request, 'galos/team_detail.html', {'photos': photos})
+
+
+def service(request):
+    return render(request, 'galos/service.html')
+
+
+def sport(request):
+    sports = Sport.objects.all()
+    paginator = Paginator(sports, 3)  # 3 sport in each page
+    page = request.GET.get('page', 1)
+    try:
+        sports = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer deliver the first page
+        sports = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page of results
+        sports = paginator.page(paginator.num_pages)
+    return render(request, 'galos/sport.html', {'sports': sports})
+
+
+def music(request):
+    musics = Drama.objects.all()
+    paginator = Paginator(musics, 3)  # 3 musics in each page
+    page = request.GET.get('page',1)
+    try:
+        musics = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer deliver the first page
+        musics = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page of results
+        musics = paginator.page(paginator.num_pages)
+    return render(request, 'galos/music.html', {'musics': musics})
+
+def media(request):
+    posts = Media.objects.all()
+    paginator = Paginator(posts, 3)  # 3 posts in each page
+    page = request.GET.get('page',1)
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer deliver the first page
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page of results
+        posts = paginator.page(paginator.num_pages)
+    return render(request, 'galos/single/media.html', {'posts': posts})
+
+
+def gallery(request):
+    images = Image.objects.all()
+    paginator = Paginator(images, 3)  # 3 images in each page
+    page = request.GET.get('page',1)
+    try:
+        images = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer deliver the first page
+        images = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page of results
+        images = paginator.page(paginator.num_pages)
+    return render(request, 'galos/gallery.html',{'images': images})
+
+
+def blogdetail(request):
+    return render(request, 'blog/blog-detail.html')
+
+# =======================others=================
+
+def single_detail(request):
+    videos =Video.objects.all()
+    paginator = Paginator(videos, 3)  # 3 videos in each page
+    page = request.GET.get('page', 1)
+    try:
+        videos = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer deliver the first page
+        videos = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page of results
+        videos = paginator.page(paginator.num_pages)
+    return render(request, 'galos/single_detail.html', {'videos': videos})
+
+
+def history_detail(request):
+    return render(request, 'galos/single/history_detail.html')
+
+def computer_form(request):
+    
+    form = CandidateForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Registered successfully !....")
+        return HttpResponseRedirect("computer_form")
+    context={
+        "form":form
+    }
+    return render(request, 'galos/single/computer_form.html', context)
+
+
+
+def search_detail(request):
+     if request.method == 'POST':
+        q= request.POST['q']
+
+        if q is not None:
+            lookups= Q(title__icontains=q) 
+            multiple= Q(name__icontains=q) 
+
+            posts= Post.objects.filter(lookups).distinct()
+            videos= Video.objects.filter(multiple).distinct()
+
+            context={'posts': posts, 'q': q, 'videos': videos}
+                    
+
+            return render(request,  'galos/single/search_detail.html', context)
+
+        else:
+            return render(request,  'galos/single/search_detail.html')
+
+
+# def robots_txt(request):
+#     text =[
+#         "User-Agent: *" ,
+#         "Disallow: /admin/",
+#     ]
+#     return HttpResponse("\n".join(text),content_type ="text/plain")
+
+<!-- blog -->
+from urllib import request
+from django.views import generic
+from .models import Post, Category
+from .forms import CommentForm
+from django.db.models import Q  # required for a global search
+from django.shortcuts import render, get_object_or_404
+
+# Create your views here.
+
+class PostList(generic.ListView):
+    queryset = Post.objects.filter(status=1).order_by('-created_on')
+    template_name = 'blog/index.html'
+    paginate_by = 2
+
+
+
+def post_detail(request, category_slug, slug):
+    template_name = 'blog/post_detail.html'
+    post = get_object_or_404(Post, slug=slug)
+    comments = post.comments.filter(active=True)
+    new_comment = None
+    # Comment posted
+    if request.method == 'POST':
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+
+            # Create Comment object but don't save to database yet
+            new_comment = comment_form.save(commit=False)
+            # Assign the current post to the comment
+            new_comment.post = post
+            # Save the comment to the database
+            new_comment.save()
+    else:
+        comment_form = CommentForm()
+
+    return render(request, template_name, {'post': post,'comments': comments,'new_comment': new_comment,'comment_form': comment_form})
+
+
+
+def category(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    
+    return render(request, 'blog/category.html', {'category': category})
+
+    <!-- ================ SITEMAPS=============================-->
+    from django.contrib.sitemaps import Sitemap
+from .models import Post
+
+class PostSitemap(Sitemap):
+    changefreq = "weekly"
+    priority = 0.8
+
+    def items(self):
+        return Post.objects.filter(status=1)
+
+    def lastmod(self, obj):
+        return obj.updated_on
+
+<!-- ================ FORMS=============================-->
+from ast import arg
+from dataclasses import field
+import email
+from email import message
+from wsgiref.validate import validator
+from django import forms
+from .models import Comment
+from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
+
+
+# Every letters to lowercase
+class Lowercase(forms.CharField):
+    def to_python(self, value):
+        return value.lower()
+    
+# Every letters to uppercase
+class Uppercase(forms.CharField):
+    def to_python(self, value):
+        return value.upper()
+
+class CommentForm(forms.ModelForm):
+
+    #  ========FORM VALIDATION=========
+    # name
+    name = forms.CharField(label='name', min_length=3, max_length=50, 
+        validators=[RegexValidator(r'^[a-zA-Z-y\s]*$',
+        message=" Only letters is allowed !")], 
+        error_messages={'required':'name  field cannot be empty !.'},
+        # required=False
+        widget=forms.TextInput(attrs={'placeholder': 'Enter your name',
+        'style':'font-size:13px; text-transform: capitalize'}))
+    
+    # email always on lowercase()
+    email = Lowercase(label='email', min_length=8, max_length=50, 
+        validators=[RegexValidator(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$',
+        message=" Put a valid email address !")], 
+        error_messages={'required':'email field cannot be empty !.'},
+        # required=False
+        widget=forms.TextInput(attrs={'placeholder': 'Enter email address',
+        'style':'font-size:13px; text-transform: lowercase'}))
+    
+    
+    # message always on both uppercase lowercase or lowercase and uppercase
+    message = forms.CharField(label='Message', min_length=10, max_length=1000, 
+        # required=False
+        widget=forms.Textarea(attrs={'placeholder': 'Enter a message', 'rows':10,
+        'style':'font-size:13px'}))
+    
+    # file uplaods.
+    # file = forms.CharField(
+    #     # required=False
+    #     widget=forms.ClearableFileInput(
+    #     attrs={
+    #     'style':'font-size:13px'}))
+
+    class Meta:
+        model = Comment
+        fields = "__all__"
+        # fields =["name, email, message"]
+        # exclude =["email, message"]
+
+
+# SUPER FUNCTION:
+ 
+# def __init__(self, *args, **kwargs):
+#     super(CommentForm,self).__init__(*args, **kwargs)
+    # ======= CONTROL PANEL (optional method to control)==========
+    # Input required
+    # self.fields['message'].required = False
+    # ERROR_MESSAGES
+    # self.fields['name'].error_messages.update({
+    #     'required': 'youth for christ'})
+    
+    # ======= ADVANCE CONTROL PANEL (optional method to control)==========
+    
+    # ERROR_MESSAGES
+    # error_messages = ['name', 'email', 'message']
+    # for fields in error_messages:
+    #     self.fields[fields].error_messages.update({'required': 'youth for christ can\'t be empty'})
+    
+    # Input Disabled
+    # self.fields['name'].disabled =True
+    
+    # Input Readonly
+    # self.fields['email'].widget.attrs.update({'readonly:readonly'})
+    
+    # =========== WIDGET CONTROL ==============
+    
+    # =========== READONLY/DISABLED BY 'LOOP FOR ' IN (ANY) ==============
+    # readonly
+    # readonly= ['name', 'email', 'message']
+    # for field in readonly:
+    #     self.fields[field].widget.attrs['readonly'] 
+    
+    
+    # ======FONT SIZE====
+    # font_size = ['name', 'email', 'message']
+    # for field in font_size:
+    #     self.fields[field].widget.attrs.update({'style': 'font_size: 18px'})
+    
+    
+# =====================END OF PANEL==================================
+
+# FUNCTION TO PREVENT DUPLICATEFILE  
+# Method 1 (loop for) 
+    # def clean_email(self):
+    #     email = self.cleaned_data.get('email')
+    #     for obj in Comment.objects.all():
+    #         if obj.email == email:
+    #             raise forms.ValidationError('Denied ! ' + email + 'is already taken.!')
+    #     return email
+                
+                
+# Method 2 (if statement w/ filter) 
+    # def clean_email(self):
+    #     email = self.cleaned_data.get('email')
+        
+    #     if  Comment.objects.filter(email = email).exist():
+    #          raise forms.ValidationError('Denied ! {} is already taken.!'.format(email))
+    #     return email
+
+
+<!-- =========================PIP INSTALL===========================-->
+1. pip install django-jazzmin
+2. pip install psycopg2
+3. pip install django-cleanup
+4. pip install django-crispy-forms
+5. pip install Pillow
+6. pip install sitemaps
+7. pip install django-summernote

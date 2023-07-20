@@ -1,0 +1,170 @@
+{% extends 'galos/base.html' %}
+
+<h1>{% block title %} Volunteers | {% endblock title %}</h1>
+
+{% block content %}
+
+{% load static %}
+
+
+<section id="volunteers" class="parallax">
+    <div class="overlay"></div>
+     <div class="container">
+         <div class="row">
+               <!-- Start Item-->
+              <div class="col-md-12 col-sm-6 facts-box margin-bottom-30 ">
+                  <h2 class="title text-white">Volunteers</h2>
+                  <a class="text-white" href="{% url 'home' %}">Home </a><span> | </span> 
+                  <a class="text-white" href="{% url 'about' %}">Volunteers</a>
+              </div>
+            </div>
+     </div> <!-- /.container -->
+  </section>
+
+  <div class="title-box text-center mb-4 mt-5 ">
+    <h2 class="title">Volunteers</h2>
+</div>
+<!--Start single-work -->
+<section id="single-work" class="section">
+    <div class="container">
+        <div class="row">					
+            <div class="col-md-7">						
+                <div id="single-work-slider" class="owl-carousel owl-theme">
+                    <div class="item"><img src="{% static 'images/yfc-photos/sport 1.jpg' %}" alt=""></div>
+                    <div class="item"><img src="{% static 'images/yfc-photos/training 1.jpg' %}" alt=""></div>
+                    <div class="item"><img src="{% static 'images/yfc-photos/home 1.jpg' %}" alt=""></div>						 
+                </div>	
+            </div>
+            
+            <!--Start Work Detail-->
+            <div class="col-md-5 work-detail">
+                    <p> Our greatest resource is our people. Youth for Christ exists and is able to accomplish its activities because of the young women and men who give their time and expertise towards reaching the youth of Kenya. We are constantly on
+                    the lookout for those that have a calling towards reaching youth</p>
+                    <p> Our greatest resource is our people. Youth for Christ exists and is able to accomplish its activities because of the young women and men who give their time and expertise towards reaching the youth of Kenya. We are constantly on
+                    the lookout for those that have a calling towards reaching youth</p>
+                    <p> Our greatest resource is our people. Youth for Christ exists and is able to accomplish its activities because of the young women and men who give their time and expertise towards reaching the youth of Kenya. We are constantly on
+                    the lookout for those that have a calling towards reaching youth</p>
+                
+            </div>
+            <!--End Work Detail-->
+        </div> <!--/ row-->
+    </div> <!--/ container-->		
+ </section>
+ <!--End single-work -->
+<div class="container">
+  <div class=" title-box text-start mb-4 mt-5">
+    <h2 class="title">Praise and Worship Team</h2>
+</div>
+  <div class="row featurette">
+    <div class="col-md-7 order-md-2">
+      <p class="">And yes, this is the last block of representative 
+        placeholder content. Again, not really intended to be actually read, 
+        simply here to give you a better view of what this would look like with
+         some actual content. Your content.
+         nd yes, this is the last block of representative 
+         placeholder content. Again, not really intended to be actually read, 
+         simply here to give you a better view of what this would look like with
+          some actual content. Your content</p>
+        <p class="">And yes, this is the last block of representative 
+        placeholder content. Again, not really intended to be actually read, 
+        simply here to give you a better view of what this would look like with
+         some actual content. Your content.
+         nd yes, this is the last block of representative 
+         placeholder content. Again, not really intended to be actually read, 
+         simply here to give you a better view of what this would look like with
+          some actual content. Your content</p>
+    </div>
+    <div class="col-md-5 order-md-1">
+      <img src="{% static 'images/yfc-photos/choir 1.jpg' %}" alt="">
+    </div>
+  </div>
+  </div>
+
+
+
+  <div class="container">
+    <div class="title-box text-start mb-4 mt-5">
+        <h2 class="title">Evangelism and Descipleship Team</h2>
+    </div>
+    <div class="row">
+      <div class="col-md-7">
+        <p class="">And yes, this is the last block of representative 
+        placeholder content. Again, not really intended to be actually read, 
+        simply here to give you a better view of what this would look like with
+         some actual content. Your content.
+         nd yes, this is the last block of representative 
+         placeholder content. Again, not really intended to be actually read, 
+         simply here to give you a better view of what this would look like with
+          some actual content. Your content</p>
+        <p class="">And yes, this is the last block of representative 
+        placeholder content. Again, not really intended to be actually read, 
+        simply here to give you a better view of what this would look like with
+         some actual content. Your content.
+         nd yes, this is the last block of representative 
+         placeholder content. Again, not really intended to be actually read, 
+         simply here to give you a better view of what this would look like with
+          some actual content. Your content</p>
+      </div>
+    <div class="col-md-5">
+      <img src="{% static 'images/yfc-photos/choir 2.jpg' %}" alt="">
+    </div>
+  </div>
+  </div>
+</div>
+
+  <!-- /END THE FEATURETTES -->
+  
+  <!-- Start About Page  -->
+  <div class="about-box-main">
+    <div class="container">
+        <div class="row">
+    <div class="col-lg-6">
+                <div class="banner-frame"> <img class="img-fluid" src="{% static 'images/yfc-photos/ceo 2.jpg' %}" alt="" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="title-box text-center mb-4">
+                    <h2 class="title">Music and Drama</h2>
+                </div>
+                
+                <p class="">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
+                    voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,
+                    sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?
+                    Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.</p>
+                <a class="btn btn-outline-secondary text-dark" href="#">Read More</a>
+            </div>
+        </div>
+      
+    </div>
+</div>
+
+<section>
+  
+
+
+
+<!--Start Call To Action-->
+<section id="vta" class="parallax">
+  <div class="overlay"></div>
+    <div class="container">
+      <div class="title-box text-center white mt-0">
+      <h2 class="title">Join Us Today</h2>
+      </div>
+        <div class="row text-center">
+          <p class=" text-justify text-light">
+            Each of you should use whatever gift you have received to serve others, as faithful stewards of God’s grace in its various forms. If anyone speaks, they should do so as one who speaks the very words of God. If anyone serves, they should do so with the strength God provides, so that in all things God may be praised through
+             Jesus Christ. To him be the glory and the power for ever and ever. Amen.
+             <strong>1 Peter 4:10-11</strong></p>
+              <div class="container mt-5 text-white">
+                <a href="{% url 'join_team' %}" class="btn btn-outline-secondary mt-3">Join Us Today</a>
+              </div>
+      </div>
+    </div>
+</section>
+<!--End Call To Action-->
+
+
+
+{% endblock  %}
+
+  

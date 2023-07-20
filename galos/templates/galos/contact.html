@@ -1,0 +1,109 @@
+{% extends 'galos/base.html' %}
+
+{% block title %}Contact | {% endblock %}
+
+{% load static %}
+{% block content %}
+<!-- Start Facts-->
+<section id="contacts" class="parallax">
+    <div class="overlay"></div>
+       <div class="container">
+           <div class="row">
+                 <!-- Start Item-->
+                <div class="col-md-12 col-sm-6 facts-box margin-bottom-30 ">
+                    <h2 class="title text-white">Contact</h2>
+                    <a class="text-white" href="{% url 'home' %}">Home </a><span> | </span> 
+                    <a class="text-white" href="{% url 'contact' %}">Contact</a>
+                </div>
+                
+                <!-- End Item-->
+             </div> <!-- /.row -->
+       </div> <!-- /.container -->
+  </section>
+  <!--End Facts-->
+
+<!-- End All Title Box -->
+
+<!-- Start Contact Us  -->
+<div class="container mt-5 mb-5">
+    <div class="title-box text-center">
+        <h2 class="title">Contact Us</h2>
+     </div> 
+</div>
+
+<div class="container">
+    <p>Do you have any questions? Please do not hesitate to contact us directly. Our team will get back to you within
+    a matter of hours to help you.</p>
+    <p>Youth For Christ South Sudan is a Christian Movement entrusted to reach young people with the gospel 
+        whenever they are and to work with the local churches in South Sudan.
+        Motivated by our own faith we give young people everywhere the opportunity to be followers of Jesus Christ and be part of any church.</p>
+</div>
+</div>
+    <div class="contact-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-sm-12">
+                    <div class="contact-form-right">
+                        <form id="contactForm" method="POST" autocomplete="off" >
+                            {% csrf_token %}
+                            <div class="row mt-5">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="Your Name" required data-error="Please enter your name">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" placeholder="Your Email" id="email" class="form-control" name="email" required data-error="Please enter your email">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject" required data-error="Please enter your Subject">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="message" name ="message" placeholder="Your Message" rows="10" data-error="Write your message" required></textarea>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                    <div class="submit-button text-center">
+                                        <button class="btn hvr-hover" id="submit" type="submit">Send Message</button>
+                                        <div id="msgSubmit" class="h3 text-center hidden"></div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-12">
+                    <div class="contact-info-left">
+                        <ul>
+                            <li>
+                                <p><i class="fas fa-map-marker-alt lg"></i>Address: YFC - South Sudan Opposite Medan Rainbow,<br> Bilpham Road - Juba South Sudan </p>
+                            </li>
+                            <li>
+                                <p><i class="fas fa-phone-square lg"></i>Phone: <a href="tel:+211923630090">+211923630090 / +211920429090</a></p>
+                            </li>
+                            <li>
+                                <p><i class="fas fa-envelope lg"></i>Email: <a href="mailto:yfc.s.sudan@gmail.com">yfc.s.sudan@gmail.com</a></p>
+                            </li>
+                        </ul>
+                        <div class="container mt-3">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3975.4629368036285!2d31.578972114090416!3d4.8618188415947845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x171281fa697dd2a9%3A0xdce68f058408f133!2sMedan%20rainbow!5e0!3m2!1sen!2ske!4v1660393699407!5m2!1sen!2ske" width="400" height="300" style="border:1px solid #771b1c;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Contact -->
+    
+<!-- End Products  -->
+<!-- End Contact -->
+
+{% endblock %}

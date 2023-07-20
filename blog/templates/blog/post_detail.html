@@ -1,0 +1,140 @@
+{% extends 'galos/base.html' %}
+{% block title %}{{post.title}} | {% endblock  %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% load static %}
+
+
+<!-- Start Facts-->
+<section id="post-details" class="section parallax">
+  <div class="overlay"></div>
+     <div class="container">
+         <div class="row">
+               <!-- Start Item-->
+              <div class="col-md-12 col-sm-6 facts-box margin-bottom-30 ">
+                  <h2 class="title text-white">Post-Details</h2>
+              </div>
+              <!-- End Item-->
+           </div> <!-- /.row -->
+     </div> <!-- /.container -->
+</section>
+<!--End Facts-->
+
+<div class="container">
+  <div class="row">
+    <!--row 1-->
+    <div class="col-md-8 mb-4 mt-3">
+      <div class="">
+        <img src="{{ post.image.url }}" alt="">
+        <h4 class=" title mt-3"> {{ post.title }}</h4>
+        <p class=" text-muted">{{ post.author }} | {{ post.created_on|timesince}} ago</p>
+        <p class="card-text ">{{ post.content | safe }}</p>
+      </div>
+
+      <div class="col-md-12 card mb-4 ">
+      <div class="card-body">
+        <!-- comments  section-->
+        <h2>{{ comments.count }} comments</h2>
+
+        {% for comment in comments %}
+        <div class="comments" style="padding: 10px;">
+          <p class="font-weight-bold">By:
+            {{ comment.name }} <br>
+          </p>
+          {{ comment.body | linebreaks }}
+          <span class=" text-muted font-weight-normal">
+            {{ comment.created_on|timesince }}  ago
+          </span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <!--Form section-->
+    <div class="col-md-12 card mb-4  mt-3 ">
+      <div class="card-body">
+        {% if new_comment %}
+        <div class="alert alert-success" role="alert">
+          Your comment is awaiting moderation
+        </div>
+        {% else %}
+        <h2>Leave a comment</h2>
+        <form method="post" style="margin-top: 1.3em;">
+          {{ comment_form|crispy }}
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline-secondary  btn-md">Submit</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+
+    </div>
+    
+    
+    
+    <!--row 2-->
+    
+    <div class="col-md-4">
+      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 mt-4" action="{% url 'search_detail' %}" method="POST" role="search" id="search">
+        {% csrf_token %}
+        <input type="search" class="btn btn-outline-secondary" name="q" placeholder=" YFC-SSD Search..." aria-label="Search" >
+      </form>
+      
+      <div class="card">
+        <h4 class="mt-3 text-center">Categories</h4>
+        <div class="col">
+          <p><a href="{% url 'category_detail' post.category.slug  %}"> {{ post.category }} </a></p>
+          
+        </div> 
+      </div>
+      
+      <div class="conainer">
+        <h4 class="mt-3 text-center">Popular Post</h4>
+         <div class="card">
+      <div class="row ">
+        <div class="col">
+         <img id="galos" src="{{ post.image.url }}" width="40px" alt="">
+        </div>
+          <div class="col">
+            <h5>{{post.title}}</h5>
+            <p>{{post.content|slice:"60"}}</p>
+            <p>{{ post.created_on|timesince}} ago</small></p>
+          </div>
+        </div>
+    </div>
+  <br>
+        <div class="card">
+
+          <img src="{% static 'images/yfc-photos/ceo 1.jpg' %}" alt="">
+          <h5 class="mt-3">Serve the LOrd</h5>
+          <p>The youth for christ south sudan </p>
+          <p>22 Sept 2022</p>
+        </div><br>
+        <div class="card mt-3">
+          <img src="{% static 'images/yfc-photos/ceo 2.jpg' %}" alt="">
+          <h5 class="mt-3">Jesus is Lord</h5>
+          <p>The youth for christ south sudan </p>
+          <p>22 Aug 2022</p>
+        </div>
+      </div>
+      <div class="card">
+        <h4 class=" title mt-3 text-center">Follow Us</h4>
+        <div class="container text-center mt-2" id="dom">
+          <a href="https://www.facebook.com/yfc.southsudan" target="_blank"><i class="fab fa-facebook"></i></a>
+          <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+          <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="#" target="_blank"><i class="fab fa-google-plus"></i></a>
+          <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+      
+   
+
+  </div>
+</div>
+
+
+{% endblock content %}

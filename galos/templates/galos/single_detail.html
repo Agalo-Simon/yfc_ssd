@@ -1,0 +1,78 @@
+
+{% extends 'galos/base.html' %}
+{% block title %}Videos | {% endblock  %}
+
+{% load static %}
+
+{% block content %}
+
+<section id="videos" class="section parallax">
+    <div class="overlay"></div>
+       <div class="container">
+           <div class="row">
+                 <!-- Start Item-->
+                <div class="col-md-12 col-sm-6 facts-box margin-bottom-30 ">
+                    <h3>MORE VIDEOS</h3>
+                </div>
+                <!-- End Item-->
+             </div> <!-- /.row -->
+       </div> <!-- /.container -->
+  </section>
+  <!--End Facts-->
+    <!--Start video-->
+
+    <!--Start video-->
+    <div class="container mt-5 mb-5">
+        <div class="title-box text-center">
+            <h2 class="title">Youth for christ south sudan</h2>
+         </div> 
+    </div>
+    <div class="container bg-white mt-5 mb-4">
+        <!--Row 1 -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <video src="{% static 'images/only jesus.mp4' %}"height="100%" width="100%" controls></video>
+                </div>
+            </div>
+        </div>
+        
+        <!--Row 2 -->
+<div class="row mb-5 mt-5">
+{% for x in videos  %}
+<div class="col-4">
+    <div class="card">
+        <video class="embed-responsive embed-responsive-16by9" controls="controls">
+            <source src="{{ x.video.url }}" type="video/mp4">
+        </video>
+        <h4>{{ x.name}}</h4>
+    </div>
+</div>
+{% endfor %}
+</div>
+</div>
+{% if videos.has_other_pages %}
+    <div class="container ">
+        <ul class="pagination pagination-lg  justify-content-center" style="margin:20px 0" >
+            {% if videos.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ videos.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        {% for i in videos.paginator.page_range %}
+          {% if videos.number == i %}
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if videos.has_next %}
+          <li class="page-item"><a class="page-link" href="#?page={{ videos.next_page_number }}">Next</a></li>
+        {% endif %}
+      </ul>
+  </div>
+  {% endif %}
+<!--Pagination end-->
+
+<!-- footer -->
+{% endblock %}
+                                            
+                                            
+                                            
